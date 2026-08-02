@@ -1,4 +1,5 @@
 use anyhow::Result;
+use sqlx::sqlite::SqlitePoolOptions;
 use sqlx::SqlitePool;
 
 #[derive(Clone)]
@@ -7,19 +8,26 @@ pub struct Database {
 }
 
 impl Database {
-    pub async fn new(path: &str) -> Result<Self> {
-        println!("Opening database at {}", path);
+    pub async fn new(
+        url: &str
+    ) -> Result<Self> {
 
-        let pool = SqlitePool::connect(path).await?;
+        let pool =
+            SqlitePoolOptions::new()
+                .max_connections(5)
+                .connect(url)
+                .await?;
 
-        sqlx::query("PRAGMA foreign_keys = ON;")
-            .execute(&pool)
-            .await?;
 
-        Ok(Self { pool })
+        Ok(Self {
+            pool
+        })
     }
 
-    pub fn pool(&self) -> &SqlitePool {
+
+    pub fn pool(
+        &self
+    ) -> &SqlitePool {
         &self.pool
     }
 }

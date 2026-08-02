@@ -23,7 +23,7 @@ impl RebrickableClient {
         let url = format!("{}/swagger/", self.base_url);
 
         let response = self.client
-            .get("https://rebrickable.com/api/v3/swagger/")
+            .get(url)
             .send()
             .await?;
 

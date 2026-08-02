@@ -1,8 +1,6 @@
-use crate::api::client::RebrickableClient;
 use anyhow::Result;
 use crate::api::models::ImportedImageData;
 use crate::database::database::Database;
-use crate::database::models::DbPartVariant;
 use crate::mapper::api_mapper::*;
 use crate::services::set_service::SetService;
 use crate::database::repositories_bundle::Repositories;
@@ -96,4 +94,24 @@ impl ImportService {
                 .collect(),
         })
     }
+
+    pub async fn import_set_complete(
+    &self,
+    set_num: &str,
+) -> Result<()> {
+
+    let images = self
+        .import_set(set_num)
+        .await?;
+
+    self.image_service
+        .cache_images_for_set(
+            &images.set_num,
+            images.set_image,
+            images.part_images,
+        )
+        .await?;
+
+    Ok(())
+}
 }

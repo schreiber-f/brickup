@@ -1,8 +1,8 @@
 use crate::api::client::RebrickableClient;
-use crate::api::models::{SearchResponse, SearchSetsRequest, SetPart, SetSummary, ImportedSet};
+use crate::api::models::{SearchResponse, SearchSetsRequest, SetPart, SetSummary};
 use anyhow::Result;
 use crate::database::database::Database;
-use crate::database::models::{DbSet, DbSetPart};
+use crate::database::models::{DbSet};
 use crate::database::repositories_bundle::Repositories;
 
 #[derive(Clone)]
