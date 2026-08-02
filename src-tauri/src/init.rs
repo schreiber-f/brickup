@@ -21,6 +21,7 @@ use crate::{
 
 
 pub async fn initialize() -> Result<AppState> {
+    dotenvy::dotenv().ok();
 
     let dirs = ProjectDirs::from(
         "com",
